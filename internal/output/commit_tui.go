@@ -7,19 +7,16 @@ import (
 	"strings"
 )
 
-// CommitTUI handles the interactive commit message editor
 type CommitTUI struct {
 	message string
 }
 
-// NewCommitTUI creates a new commit TUI
 func NewCommitTUI(message string) *CommitTUI {
 	return &CommitTUI{
 		message: message,
 	}
 }
 
-// ShowCommitEditor displays the commit message and allows user to accept, edit, or reject
 func (t *CommitTUI) ShowCommitEditor() (string, bool, error) {
 	fmt.Println("Generated Commit Message:")
 	fmt.Println(strings.Repeat("=", 50))
