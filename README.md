@@ -27,6 +27,7 @@ GitR is a command-line tool that uses AI to generate conventional commit message
 #### Option 1: Automated Installation Script
 
 **Linux/macOS:**
+
 ```bash
 git clone <repository-url>
 cd gitr
@@ -35,6 +36,7 @@ chmod +x install.sh
 ```
 
 **Windows (PowerShell as Administrator):**
+
 ```powershell
 git clone <repository-url>
 cd gitr
@@ -45,6 +47,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 #### Option 2: Using Make
 
 **Linux/macOS:**
+
 ```bash
 git clone <repository-url>
 cd gitr
@@ -52,6 +55,7 @@ make install
 ```
 
 **For current user only (no sudo required):**
+
 ```bash
 make install-user
 ```
@@ -87,6 +91,7 @@ You should see the help message. If you get "command not found", make sure the i
 ### Uninstalling GitR
 
 **Linux/macOS:**
+
 ```bash
 sudo rm /usr/local/bin/gitr
 # Or if installed for user only:
@@ -94,6 +99,7 @@ rm ~/bin/gitr
 ```
 
 **Windows:**
+
 ```powershell
 # Remove from Program Files
 Remove-Item -Recurse -Force "$env:ProgramFiles\GitR"
