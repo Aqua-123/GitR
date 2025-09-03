@@ -29,11 +29,11 @@ func (t *CommitTUI) ShowCommitEditor() (string, bool, error) {
 
 	for {
 		fmt.Println("Options:")
-		fmt.Println(" [a] Accept and commit")
+		fmt.Println(" [a] Accept and commit (default)")
 		fmt.Println(" [e] Edit message")
 		fmt.Println(" [r] Reject (don't commit)")
 		fmt.Println("")
-		fmt.Print("Choose an option [a/e/r]: ")
+		fmt.Print("Choose an option [a/e/r] (or press Enter to accept): ")
 
 		reader := bufio.NewReader(os.Stdin)
 		choice, err := reader.ReadString('\n')
@@ -42,6 +42,11 @@ func (t *CommitTUI) ShowCommitEditor() (string, bool, error) {
 		}
 
 		choice = strings.TrimSpace(strings.ToLower(choice))
+
+		// If no choice provided, default to 'a' (accept)
+		if choice == "" {
+			choice = "a"
+		}
 
 		switch choice {
 		case "a", "accept":
@@ -73,10 +78,11 @@ func (t *CommitTUI) ShowCommitEditor() (string, bool, error) {
 // editMessage allows the user to edit the commit message
 func (t *CommitTUI) editMessage() (string, error) {
 	fmt.Println("")
-	fmt.Println("️  Edit Commit Message:")
-	fmt.Println("(Press Enter to keep current message, or type new message)")
-	fmt.Printf("Current: %s\n", t.message)
-	fmt.Print("New message: ")
+	fmt.Println("Edit Commit Message:")
+	fmt.Println("")
+	fmt.Printf("Current message: %s\n", t.message)
+	fmt.Println("")
+	fmt.Print("Edit message: ")
 
 	reader := bufio.NewReader(os.Stdin)
 	newMessage, err := reader.ReadString('\n')
@@ -86,7 +92,7 @@ func (t *CommitTUI) editMessage() (string, error) {
 
 	newMessage = strings.TrimSpace(newMessage)
 	if newMessage == "" {
-		return t.message, nil // Keep current message
+		return t.message, nil
 	}
 
 	return newMessage, nil
