@@ -1,3 +1,6 @@
 main
 .cursorrules
 config.json
+.gitr_config
+gitr.exe
+gitr
