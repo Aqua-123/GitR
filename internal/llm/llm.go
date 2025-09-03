@@ -106,7 +106,8 @@ func createOpenAIModel(ctx context.Context, cfg *config.OpenAIConfig) (model.Cha
 func createCommitMessageTemplate(cfg *config.Config) *prompt.DefaultChatTemplate {
 	return prompt.FromMessages(schema.FString,
 		// System message template
-		schema.SystemMessage("You are an expert Git commit message generator. Generate clear, concise, and conventional commit messages based on the staged changes. Follow the {style} style and keep the message under {max_length} characters. {include_scope_instruction}"),
+		schema.SystemMessage(`You are an expert Git commit message generator. Generate clear, concise, and conventional commit messages based on the staged changes. Follow the {style} style and keep the message under {max_length} characters. {include_scope_instruction}
+		Be less specific about the changes and only include the most important changes or the general change or broader concept that the user is trying to convey.`),
 
 		// User message template
 		schema.UserMessage("Please generate a commit message for the following staged changes:\n\n{staged_changes}"),

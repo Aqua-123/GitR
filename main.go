@@ -174,7 +174,6 @@ func generateAndCommit(bypassConfirmation bool) {
 			os.Exit(1)
 		}
 
-		// Check if this is an incomplete configuration (first time setup)
 		if cfg.IsFirstTimeSetup() {
 			fmt.Println("️  Configuration incomplete. Running setup...")
 			fmt.Println("")
