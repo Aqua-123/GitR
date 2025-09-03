@@ -1,4 +1,4 @@
-# GitR - git commit messages using LLMs
+# GitR - Git commit messages using LLMs
 
 GitR is a command-line tool that uses AI to generate conventional commit messages based on your staged changes. It integrates seamlessly with your Git workflow and provides an interactive interface for reviewing and editing generated messages.
 
