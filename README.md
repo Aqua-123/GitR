@@ -20,14 +20,84 @@ GitR is a command-line tool that uses AI to generate conventional commit message
 
 - Go 1.21 or later
 - Git repository
-- OpenAI API key (or compatible API)
+- OpenAI API key (or compatible API like Shivaay)
 
-### Build from Source
+### Quick Installation
+
+#### Option 1: Automated Installation Script
+
+**Linux/macOS:**
+```bash
+git clone <repository-url>
+cd gitr
+chmod +x install.sh
+./install.sh
+```
+
+**Windows (PowerShell as Administrator):**
+```powershell
+git clone <repository-url>
+cd gitr
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\install.ps1
+```
+
+#### Option 2: Using Make
+
+**Linux/macOS:**
+```bash
+git clone <repository-url>
+cd gitr
+make install
+```
+
+**For current user only (no sudo required):**
+```bash
+make install-user
+```
+
+#### Option 3: Manual Installation
 
 ```bash
 git clone <repository-url>
 cd gitr
-go build .
+go build -o gitr .
+
+# Install system-wide (requires sudo on Unix)
+sudo cp gitr /usr/local/bin/
+sudo chmod +x /usr/local/bin/gitr
+
+# Or install for current user
+mkdir -p ~/bin
+cp gitr ~/bin/
+chmod +x ~/bin/gitr
+# Make sure ~/bin is in your PATH
+```
+
+### Verify Installation
+
+After installation, verify GitR is working:
+
+```bash
+gitr --help
+```
+
+You should see the help message. If you get "command not found", make sure the installation directory is in your PATH.
+
+### Uninstalling GitR
+
+**Linux/macOS:**
+```bash
+sudo rm /usr/local/bin/gitr
+# Or if installed for user only:
+rm ~/bin/gitr
+```
+
+**Windows:**
+```powershell
+# Remove from Program Files
+Remove-Item -Recurse -Force "$env:ProgramFiles\GitR"
+# Remove from PATH (requires manual editing of system environment variables)
 ```
 
 ## Quick Start
@@ -45,6 +115,27 @@ This will guide you through:
 - Setting up your API key
 - Configuring your preferred model
 - Setting commit message preferences
+
+### Supported AI Providers
+
+GitR supports multiple AI providers:
+
+#### OpenAI
+
+- **Base URL**: `https://api.openai.com/v1`
+- **Models**: `gpt-3.5-turbo`, `gpt-4`, etc.
+- **Get API Key**: [OpenAI Platform](https://platform.openai.com/api-keys)
+
+#### Shivaay (FuturixAI)
+
+- **Base URL**: `https://api.futurixai.com/api/shivaay/v1`
+- **Model**: `shivaay`
+- **Get API Key**: [Shivaay Documentation](https://shivaay.futurixai.com/documentation)
+- **Documentation**: [Shivaay API Docs](https://shivaay.futurixai.com/documentation)
+
+#### Other OpenAI-Compatible APIs
+
+GitR works with any OpenAI-compatible API endpoint. Simply configure the base URL and model name in your settings.
 
 ### 2. Basic Usage
 
@@ -103,11 +194,15 @@ GitR looks for configuration files in the following order:
 
 ### Configuration Options
 
-#### OpenAI Settings
+#### AI Provider Settings
 
-- **API Key**: Your OpenAI API key
-- **Base URL**: API endpoint (default: `https://api.openai.com/v1`)
-- **Model**: Model to use (e.g., `gpt-3.5-turbo`, `gpt-4`)
+- **API Key**: Your API key from your chosen provider
+- **Base URL**: API endpoint
+  - OpenAI: `https://api.openai.com/v1`
+  - Shivaay: `https://api.futurixai.com/api/shivaay/v1`
+- **Model**: Model to use
+  - OpenAI: `gpt-3.5-turbo`, `gpt-4`, etc.
+  - Shivaay: `shivaay`
 - **Max Tokens**: Maximum response length
 - **Temperature**: Response creativity (0.0-2.0)
 - **Timeout**: Request timeout in seconds
@@ -119,7 +214,9 @@ GitR looks for configuration files in the following order:
 - **Include Scope**: Whether to include scope in commit messages
 - **Commit Without Confirmation**: Default behavior for commits
 
-### Example Configuration
+### Example Configurations
+
+#### OpenAI Configuration
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -128,9 +225,41 @@ GitR looks for configuration files in the following order:
     <by_azure>false</by_azure>
     <base_url>https://api.openai.com/v1</base_url>
     <api_version>2023-05-15</api_version>
-    <api_key>your-api-key-here</api_key>
+    <api_key>your-openai-api-key-here</api_key>
     <timeout>30</timeout>
     <model>gpt-3.5-turbo</model>
+    <max_tokens>150</max_tokens>
+    <temperature>0.7</temperature>
+    <top_p>1.0</top_p>
+    <stop></stop>
+    <presence_penalty>0.0</presence_penalty>
+    <frequency_penalty>0.0</frequency_penalty>
+    <response_format></response_format>
+    <seed></seed>
+    <logit_bias></logit_bias>
+    <user></user>
+  </openai>
+  <commit_template>
+    <style>conventional</style>
+    <max_length>72</max_length>
+    <include_scope>true</include_scope>
+    <commit_without_confirmation>false</commit_without_confirmation>
+  </commit_template>
+</config>
+```
+
+#### Shivaay Configuration
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <openai>
+    <by_azure>false</by_azure>
+    <base_url>https://api.futurixai.com/api/shivaay/v1</base_url>
+    <api_version>2023-05-15</api_version>
+    <api_key>your-shivaay-api-key-here</api_key>
+    <timeout>30</timeout>
+    <model>shivaay</model>
     <max_tokens>150</max_tokens>
     <temperature>0.7</temperature>
     <top_p>1.0</top_p>
@@ -200,7 +329,7 @@ feat: Add user authentication system
 
 - Must be run in a Git repository
 - Must have staged changes (for commit operations)
-- Requires OpenAI API key and model configuration
+- Requires API key and model configuration (OpenAI, Shivaay, or compatible API)
 - Go 1.21+ for building from source
 
 ## Troubleshooting
